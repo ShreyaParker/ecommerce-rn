@@ -1,7 +1,9 @@
 import React, {useState} from 'react';
-import {KeyboardAvoidingView, Pressable,Image,Text, SafeAreaView, TextInput, View} from "react-native";
+import {KeyboardAvoidingView, Pressable, Image, Text, SafeAreaView, TextInput, View, Alert} from "react-native";
 import {AntDesign, MaterialIcons,Ionicons} from "@expo/vector-icons";
 import {useNavigation} from "@react-navigation/native";
+import axios from "axios";
+
 
 const RegisterScreen = () => {
     const [email,setEmail] = useState("")
@@ -9,7 +11,20 @@ const RegisterScreen = () => {
     const [name,setName] = useState("")
     const navigation = useNavigation()
 
+    const handleRegister = () =>{
+        const  user = {
+            name : name,
+            email: email,
+            password:password
+        }
+        axios.post("http://192.168.0.101:5000/register",user).then((response)=>{
+            console.log(response)
+            Alert.alert("registration succesful")
+        }).catch((e) => {
+            Alert.alert("Error",e.message)
+        })
 
+    }
     return (
         <SafeAreaView style={{flex:1, backgroundColor:"white",alignItems:"center"}}>
             <View>
@@ -128,6 +143,7 @@ const RegisterScreen = () => {
                 </View>
                 <View style={{marginTop:50}}/>
                 <Pressable
+                    onPress={handleRegister}
                     style={{width:200, backgroundColor:"#FEBE10" ,borderRadius:6,marginLeft:"auto",marginRight:"auto",padding:15}}>
                     <Text style={{textAlign:"center" , color:"white",fontSize:16,fontWeight:"bold"}}>
                         Register

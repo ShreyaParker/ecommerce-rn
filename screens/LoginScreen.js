@@ -1,12 +1,35 @@
 import React, {useState} from 'react';
-import {Image, KeyboardAvoidingView, Pressable, SafeAreaView, Text, TextInput, View} from "react-native";
+import {Image, KeyboardAvoidingView, Pressable, SafeAreaView, Text, TextInput, View,Alert} from "react-native";
 import {MaterialIcons} from "@expo/vector-icons"
 import {AntDesign} from "@expo/vector-icons"
 import {useNavigation} from "@react-navigation/native";
+import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 const LoginScreen = () => {
     const [email,setEmail] = useState("")
     const [password,setPassword] = useState("")
     const navigation = useNavigation()
+    const handleLogin = ( )=>{
+        const user = {
+            email: email,
+            password: password,
+        };
+
+        axios
+            .post("http://192.168.0.101:5000/login", user)
+            .then((response) => {
+                console.log(response);
+                const token = response.data.token;
+                AsyncStorage.setItem("authToken", token);
+                navigation.replace("Home");
+            })
+            .catch((error) => {
+                Alert.alert("Invalid email or password")
+                console.log(error);
+
+            });
+    }
     return (
         <SafeAreaView style={{flex:1, backgroundColor:"white",alignItems:"center"}}>
             <View>
@@ -71,7 +94,9 @@ const LoginScreen = () => {
                     </Text>
                 </View>
                 <View style={{marginTop:50}}/>
-                <Pressable style={{width:200, backgroundColor:"#FEBE10" ,borderRadius:6,marginLeft:"auto",marginRight:"auto",padding:15}}>
+                <Pressable
+                    onPress={handleLogin}
+                    style={{width:200, backgroundColor:"#FEBE10" ,borderRadius:6,marginLeft:"auto",marginRight:"auto",padding:15}}>
                     <Text style={{textAlign:"center" , color:"white",fontSize:16,fontWeight:"bold"}}>
                         Login
                     </Text>
