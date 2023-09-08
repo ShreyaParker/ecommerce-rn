@@ -1,13 +1,17 @@
 import React from 'react';
-import {Text, View} from "react-native";
+import {Platform, SafeAreaView, Text} from "react-native";
 
 const HomeScreen = () => {
     return (
-        <View>
+        <SafeAreaView style={{
+            paddingTop: Platform.OS === "android" ? 40 : 0,
+            flex:1,
+            backgroundColor:"white"
+        }}>
             <Text>
                 Login Success
             </Text>
-        </View>
+        </SafeAreaView>
     );
 };
 

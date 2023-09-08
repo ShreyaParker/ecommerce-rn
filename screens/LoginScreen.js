@@ -17,16 +17,16 @@ const LoginScreen = () => {
         };
 
         axios
-            .post("http://192.168.0.101:5000/login", user)
+            .post("http://10.0.2.2:5000/login", user)
             .then((response) => {
                 console.log(response);
                 const token = response.data.token;
                 AsyncStorage.setItem("authToken", token);
-                navigation.replace("Home");
+                navigation.replace("Main");
             })
             .catch((error) => {
                 Alert.alert("Invalid email or password")
-                console.log(error);
+                console.log(error.message);
 
             });
     }

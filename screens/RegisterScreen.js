@@ -17,11 +17,12 @@ const RegisterScreen = () => {
             email: email,
             password:password
         }
-        axios.post("http://192.168.0.101:5000/register",user).then((response)=>{
+        axios.post("http://10.0.2.2:5000/register",user).then((response)=>{
             console.log(response)
             Alert.alert("registration succesful")
         }).catch((e) => {
             Alert.alert("Error",e.message)
+            console.log(e.message)
         })
 
     }
