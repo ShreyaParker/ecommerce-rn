@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Image, KeyboardAvoidingView, Pressable, SafeAreaView, Text, TextInput, View,Alert} from "react-native";
 import {MaterialIcons} from "@expo/vector-icons"
 import {AntDesign} from "@expo/vector-icons"
@@ -10,6 +10,21 @@ const LoginScreen = () => {
     const [email,setEmail] = useState("")
     const [password,setPassword] = useState("")
     const navigation = useNavigation()
+
+    useEffect(()=>{
+        const checkLoginStatus=async () =>{
+            try{
+                const token = await AsyncStorage.getItem("authToken")
+                if(token){
+                    navigation.replace("Main")
+                }
+            }catch (e){
+                console.log(e)
+            }
+        }
+        checkLoginStatus()
+    })
+
     const handleLogin = ( )=>{
         const user = {
             email: email,
