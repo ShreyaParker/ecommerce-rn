@@ -6,17 +6,19 @@ import {
     SafeAreaView,
     ScrollView,
     Text,
-    TextInput,
+
     TouchableOpacity,
     View
 } from "react-native";
-import {AntDesign, Feather, Ionicons, MaterialIcons} from "@expo/vector-icons";
+import {AntDesign,  Ionicons, MaterialIcons} from "@expo/vector-icons";
 import  {categories,deals,offers} from "../data/productData"
 import {SliderBox} from "react-native-image-slider-box";
 
 import axios from "axios";
 import ProductItem from "../components/ProductItem";
 import {useNavigation} from "@react-navigation/native";
+
+import SearchBar from "../components/SearchBar";
 
 const HomeScreen = () => {
     const [products, setProducts] = useState([])
@@ -66,37 +68,7 @@ const HomeScreen = () => {
                 }}
             >
                 <ScrollView>
-                    <View
-                        style={{
-                            backgroundColor: "#00CED1",
-                            padding: 10,
-                            flexDirection: "row",
-                            alignItems: "center",
-                        }}
-                    >
-                        <Pressable
-                            style={{
-                                flexDirection: "row",
-                                alignItems: "center",
-                                marginHorizontal: 7,
-                                gap: 10,
-                                backgroundColor: "white",
-                                borderRadius: 3,
-                                height: 38,
-                                flex: 1,
-                            }}
-                        >
-                            <AntDesign
-                                style={{paddingLeft: 10}}
-                                name="search1"
-                                size={22}
-                                color="black"
-                            />
-                            <TextInput placeholder="Search Amazon.in"/>
-                        </Pressable>
-
-                        <Feather name="mic" size={24} color="black"/>
-                    </View>
+                    <SearchBar/>
 
                     <View style={{
                         flexDirection: "row",
