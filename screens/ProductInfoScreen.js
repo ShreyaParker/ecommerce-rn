@@ -1,15 +1,28 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Dimensions, ImageBackground, Pressable, ScrollView, Text, View} from "react-native";
 import SearchBar from "../components/SearchBar";
 import {useRoute} from "@react-navigation/native";
 import {AntDesign, Ionicons, MaterialCommunityIcons} from "@expo/vector-icons";
-
+import {useDispatch, useSelector} from "react-redux";
+import {addToCart} from "../redux/CartReducer";
 
 const ProductInfoScreen = () => {
+    const[addedToCart,setAddedToCart] = useState(false)
     const route = useRoute()
     const { width } = Dimensions.get("window")
     const height = (width * 100) / 100;
+    const dispatch = useDispatch()
+    const cart = useSelector((state)=> state.cart.cart)
+    const handleAddItem = (item) =>{
+        setAddedToCart(true)
+        dispatch(addToCart(item))
+        setTimeout(()=>{
+            setAddedToCart(false)
+        },60000)
 
+    }
+
+    console.log(cart)
     return (
        <ScrollView
            style={{ marginTop: 55, flex: 1, backgroundColor: "white" }}
@@ -218,7 +231,7 @@ const ProductInfoScreen = () => {
            </Text>
 
            <Pressable
-
+               onPress={()=> handleAddItem(route?.params?.item)}
                style={{
                    backgroundColor:"#FFC72C",
                    padding:10,
@@ -229,9 +242,17 @@ const ProductInfoScreen = () => {
                    marginVertical:10
                }}
            >
-               <Text>
-                   Add to Cart
-               </Text>
+               {
+                   addedToCart ? (
+                       <Text>
+                           Added to Cart
+                       </Text>
+                   ) : (
+                       <Text>
+                           Add to Cart
+                       </Text>
+                   )
+               }
            </Pressable>
            <Pressable style={{
                backgroundColor:"#FFAC1C",
